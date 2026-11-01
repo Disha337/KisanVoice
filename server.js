@@ -10,6 +10,7 @@ import { bolnaStatus, bolnaCall, bolnaExecution } from './lib/bolna.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.disable('x-powered-by');
+app.set('trust proxy', 1);
 app.use(express.json({ limit: '7mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
