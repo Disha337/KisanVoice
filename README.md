@@ -8,7 +8,7 @@ Built for **BUILDATHON by Bolna** (Voice AI).
 
 | | |
 |---|---|
-| 🎥 Pitch deck | [Google Drive](https://drive.google.com/file/d/1VJMW5NtU8pL56DMoVH-V6qNx4fYm4QIA/view?usp=sharing) |
+| 🎥 Pitch deck | [[Google Drive] (https://drive.google.com/file/d/1O2XpGRlavXGfehYj8NOBxSRByf9d0df0/view?usp=sharing)] |
 | 🌐 Live demo | [kisanvoice-32d8.onrender.com](https://kisanvoice-32d8.onrender.com/) |
 | 👤 Team | Disha |
 
