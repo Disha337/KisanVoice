@@ -4,15 +4,19 @@
 
 KisanVoice is a voice-first AI farming assistant for Indian farmers. A farmer speaks in **Marathi, Hindi or English**, hears a simple spoken answer, and keeps asking follow-up questions. Typing is optional, never required.
 
-Built for the **Bolna Buildathon** (voice AI).
+Built for **BUILDATHON by Bolna** (Voice AI).
 
 | | |
 |---|---|
-| 🎥 Pitch deck | (https://drive.google.com/file/d/1VJMW5NtU8pL56DMoVH-V6qNx4fYm4QIA/view?usp=sharing) |
-| 🌐 Live demo | (https://kisanvoice-32d8.onrender.com/) |
+| 🎥 Pitch deck | [Google Drive](https://drive.google.com/file/d/1VJMW5NtU8pL56DMoVH-V6qNx4fYm4QIA/view?usp=sharing) |
+| 🌐 Live demo | [kisanvoice-32d8.onrender.com](https://kisanvoice-32d8.onrender.com/) |
 | 👤 Team | Disha |
 
-> **Reviewer note:** open the live demo in **Microsoft Edge or Chrome** and allow the microphone. Edge has a natural Marathi voice built in; on Chrome, Marathi answers are read with a Hindi voice automatically.
+> **Reviewer note:** open the live demo in **Microsoft Edge or Chrome** and allow the microphone. The free server may take about a minute to wake up on the first visit. Edge has a natural Marathi voice built in; on Chrome, Marathi answers are read with a Hindi voice automatically.
+
+## Why I built this
+
+I'm a farmer's daughter from a village. I have watched my father struggle to get timely, understandable agricultural information. Language can be a barrier, apps can be complicated, and typing is slow. So I built KisanVoice: a simple assistant that lets farmers ask in their own language, by voice.
 
 ---
 
@@ -47,7 +51,7 @@ A farmer with a sick crop needs an answer now. Most digital tools assume typing,
 | Crop suggestions | Transparent **rule-based sample** scoring (season, soil, water); labelled as non-scientific |
 | Disease help | Symptom text (typed or spoken) plus optional photo; always framed as preliminary guidance |
 | Weather | **Real** data from Open-Meteo (no key), with source and fetch time shown |
-| Bolna phone call | Settings page triggers a Bolna agent call via Bolna's documented API |
+| Bolna phone call | Settings page triggers a Bolna voice-agent call via Bolna's documented API (see status below) |
 | Guest mode | No account or database needed; profile stays in the browser |
 
 ## 5. Responsible-AI choices
@@ -78,7 +82,7 @@ Farmer speaks ─► Browser SpeechRecognition (live transcript)
 
 Other routes: `/api/weather` (Open-Meteo), `/api/crops` (rules), `/api/bolna/*` (Bolna call + status).
 
-**Stack:** Node.js, Express, vanilla JavaScript (no build step), Web Speech API. Providers: Google Gemini, OpenAI or Anthropic (set one key).
+**Stack:** Node.js, Express, vanilla JavaScript (no build step), Web Speech API. Providers: Google Gemini (default), OpenAI or Anthropic (set one key).
 
 ## 7. Honest status
 
@@ -86,11 +90,11 @@ Other routes: `/api/weather` (Open-Meteo), `/api/crops` (rules), `/api/bolna/*` 
 |---|---|
 | Server routes, error handling, demo mode, crop rules, translations | Covered by automated tests (`npm test`) and manual API checks |
 | Voice conversation flow (listen → answer → speak → follow-up, error paths) | Verified in a simulated browser with fake speech APIs |
-| Real microphone and speakers | [update after your own device test] |
-| Live AI answers | [update: tested with Gemini / not tested] |
-| Bolna phone call | Implemented from Bolna's official docs (`POST /call`, `GET /executions/{id}`); [update: tested live / not yet tested] |
+| Real microphone and speakers | Tested on a real device: voice input and spoken answers work. Marathi speech needs an installed voice (Edge has one; Chrome falls back to a Hindi voice). |
+| Live AI answers | Tested on the live site with Gemini. |
+| Bolna phone call | Tested live: a Bolna agent placed a call to my own verified phone number (`POST /call`, `GET /executions/{id}`). On my current Bolna account only verified numbers can receive calls, so this feature is **not open to other users** of the live site. |
 
-**Known limits:** Marathi recognition quality varies by device. Marathi speech output needs an installed voice (Edge has one). Crop suggestions are samples, not agronomic advice. There is no live price data.
+**Known limits:** Marathi recognition quality varies by device. Marathi speech output needs an installed voice (Edge has one). Crop suggestions are samples, not agronomic advice. There is no live price data. KisanVoice has not yet been tested with real farmers.
 
 ## 8. Run it locally (Windows)
 
@@ -131,9 +135,11 @@ Real AI answers, disease guidance, photo analysis, and the Bolna call.
 
 ## 10. What's next
 
-- A Bolna phone-call agent so farmers without smartphones can use the same assistant.
+- Open the Bolna phone-call agent to more farmers (needs a production Bolna account and a consent flow), so farmers without smartphones can use the same assistant.
 - Natural Marathi voice output on every device.
+- Verified agricultural information sources.
 - Voice alerts for weather and local market information.
+- Testing with real farmers.
 
 ## 11. Project layout
 
