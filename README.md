@@ -8,7 +8,7 @@ Built for the **Bolna Buildathon** (voice AI).
 
 | | |
 |---|---|
-| 🎥 Pitch video / deck | [add link] |
+| 🎥 Pitch deck | (https://drive.google.com/file/d/1VJMW5NtU8pL56DMoVH-V6qNx4fYm4QIA/view?usp=sharing) |
 | 🌐 Live demo | (https://kisanvoice-32d8.onrender.com/) |
 | 👤 Team | Disha |
 
