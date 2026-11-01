@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f5132">
+<title>KisanVoice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌾%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true">🌾</span>
+    <div><h1>KisanVoice</h1><p data-i18n="app.tagline"></p></div></div>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="lang" data-lang="en" lang="en">English</button>
+    <button class="lang" data-lang="mr" lang="mr">मराठी</button>
+    <button class="lang" data-lang="hi" lang="hi">हिन्दी</button>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Main">
+  <button data-view="voice" class="tab active"><span aria-hidden="true">🎙️</span><b data-i18n="nav.voice"></b></button>
+  <button data-view="crops" class="tab"><span aria-hidden="true">🌱</span><b data-i18n="nav.crops"></b></button>
+  <button data-view="disease" class="tab"><span aria-hidden="true">🍃</span><b data-i18n="nav.disease"></b></button>
+  <button data-view="weather" class="tab"><span aria-hidden="true">⛅</span><b data-i18n="nav.weather"></b></button>
+  <button data-view="settings" class="tab"><span aria-hidden="true">⚙️</span><b data-i18n="nav.settings"></b></button>
+</nav>
+
+<main id="main">
+<!-- ============ VOICE (home) ============ -->
+<section id="view-voice" class="view active">
+  <div class="modechip" id="modeChip"></div>
+  <div class="stage">
+    <div id="phaseLabel" class="phase" role="status" aria-live="polite"></div>
+    <div id="orbwrap" class="orbwrap p-idle">
+      <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+      <button id="orb" class="orb" data-i18n-aria="voice.tap" aria-pressed="false"><span id="orbIcon" aria-hidden="true"></span></button>
+    </div>
+    <canvas id="wave" width="360" height="56" hidden aria-hidden="true"></canvas>
+    <div id="orbHint" class="hint"></div>
+    <div id="live" class="live" aria-live="polite"></div>
+  </div>
+  <div id="notice" class="notice" role="alert" hidden></div>
+  <div class="controls">
+    <button id="stopBtn" class="btn ghost" disabled>⏹ <span data-i18n="voice.stop"></span></button>
+    <button id="repeatBtn" class="btn ghost">🔁 <span data-i18n="voice.repeat"></span></button>
+    <button id="newBtn" class="btn ghost">✨ <span data-i18n="voice.new"></span></button>
+  </div>
+  <div class="toggles">
+    <label><input type="checkbox" id="autoSpeak"> <span data-i18n="voice.autospeak"></span></label>
+    <label><input type="checkbox" id="handsFree"> <span data-i18n="voice.handsfree"></span></label>
+  </div>
+  <div id="chat" class="chat" aria-live="polite">
+    <div class="bubble bot greeting"><div class="who" data-i18n="voice.bot"></div><p data-i18n="voice.greeting"></p></div>
+  </div>
+  <div class="chips-title" data-i18n="voice.try"></div>
+  <div id="chips" class="chips"></div>
+  <form id="composer" class="composer" autocomplete="off">
+    <input id="textIn" type="text" data-i18n-ph="voice.placeholder" aria-label="Question" maxlength="500">
+    <button class="btn primary" type="submit" data-i18n="voice.send"></button>
+  </form>
+</section>
+
+<!-- ============ CROPS ============ -->
+<section id="view-crops" class="view">
+  <h2 data-i18n="crops.title"></h2><p class="sub" data-i18n="crops.sub"></p>
+  <div class="card">
+    <label class="fld"><span data-i18n="crops.speak"></span>
+      <div class="row"><input id="cSpeak" data-i18n-ph="crops.speakPh"><button type="button" class="mic-mini" data-dictate="cSpeak" data-i18n-aria="mic.dictate">🎙️</button></div></label>
+    <div id="cHeard" class="small"></div>
+    <label class="fld"><span data-i18n="crops.location"></span>
+      <div class="row"><input id="cLoc" maxlength="80"><button type="button" class="mic-mini" data-dictate="cLoc" data-i18n-aria="mic.dictate">🎙️</button></div></label>
+    <div class="grid3">
+      <label class="fld"><span data-i18n="crops.season"></span><select id="cSeason"></select></label>
+      <label class="fld"><span data-i18n="crops.soil"></span><select id="cSoil"></select></label>
+      <label class="fld"><span data-i18n="crops.water"></span><select id="cWater"></select></label>
+    </div>
+    <button id="cGo" class="btn primary" data-i18n="crops.go"></button>
+  </div>
+  <div id="cOut"></div>
+</section>
+
+<!-- ============ DISEASE ============ -->
+<section id="view-disease" class="view">
+  <h2 data-i18n="disease.title"></h2><p class="sub" data-i18n="disease.sub"></p>
+  <form id="dForm" class="card">
+    <label class="fld"><span data-i18n="disease.crop"></span>
+      <div class="row"><input id="dCrop" maxlength="60"><button type="button" class="mic-mini" data-dictate="dCrop" data-i18n-aria="mic.dictate">🎙️</button></div></label>
+    <label class="fld"><span data-i18n="disease.symptoms"></span>
+      <div class="row"><textarea id="dSym" rows="3" maxlength="500"></textarea><button type="button" class="mic-mini" data-dictate="dSym" data-i18n-aria="mic.dictate">🎙️</button></div></label>
+    <label class="fld"><span data-i18n="disease.photo"></span>
+      <input id="dImg" type="file" accept="image/jpeg,image/png,image/webp"></label>
+    <img id="dPrev" class="prev" alt="" hidden>
+    <div class="small" data-i18n="disease.imgnote"></div>
+    <button class="btn primary" type="submit" id="dGo" data-i18n="disease.go"></button>
+    <div id="dMsg" class="small" role="status"></div>
+  </form>
+  <div class="warn" data-i18n="disease.warn"></div>
+  <div id="dOut"></div>
+</section>
+
+<!-- ============ WEATHER ============ -->
+<section id="view-weather" class="view">
+  <h2 data-i18n="weather.title"></h2><p class="sub" data-i18n="weather.sub"></p>
+  <form id="wForm" class="card">
+    <label class="fld"><span data-i18n="weather.place"></span>
+      <div class="row"><input id="wQ" maxlength="80"><button type="button" class="mic-mini" data-dictate="wQ" data-i18n-aria="mic.dictate">🎙️</button></div></label>
+    <div class="row wrap"><button class="btn primary" type="submit" data-i18n="weather.search"></button>
+      <button class="btn ghost" type="button" id="wHere">📍 <span data-i18n="weather.here"></span></button></div>
+  </form>
+  <div id="wOut"></div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section id="view-settings" class="view">
+  <h2 data-i18n="settings.title"></h2>
+  <form id="sForm" class="card">
+    <label class="fld"><span data-i18n="settings.name"></span><input id="pName" maxlength="60"></label>
+    <label class="fld"><span data-i18n="settings.village"></span><input id="pVillage" maxlength="80"></label>
+    <label class="fld"><span data-i18n="settings.crops"></span><input id="pCrops" maxlength="120"></label>
+    <label class="fld"><span data-i18n="settings.rate"></span><input id="pRate" type="range" min="0.6" max="1.3" step="0.1" value="1"></label>
+    <button class="btn primary" type="submit" data-i18n="settings.save"></button>
+    <div id="sMsg" class="small" role="status"></div>
+    <div class="small" data-i18n="settings.privacy"></div>
+  </form>
+  <div class="card">
+    <h3 data-i18n="settings.bolna"></h3><p class="small" data-i18n="settings.bolnaDesc"></p>
+    <div id="bStatus" class="small"></div>
+    <label class="fld"><span data-i18n="settings.phone"></span><input id="bPhone" type="tel" inputmode="tel" placeholder="+91…"></label>
+    <div class="row wrap"><button id="bCall" class="btn primary" data-i18n="settings.call"></button>
+      <button id="bCheck" class="btn ghost" data-i18n="settings.check" hidden></button></div>
+    <div id="bOut" class="small" role="status"></div>
+  </div>
+</section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
