@@ -9,8 +9,8 @@ Built for the **Bolna Buildathon** (voice AI).
 | | |
 |---|---|
 | 🎥 Pitch video / deck | [add link] |
-| 🌐 Live demo | [add link] |
-| 👤 Team | [your name(s)] |
+| 🌐 Live demo | (https://kisanvoice-32d8.onrender.com/) |
+| 👤 Team | Disha |
 
 > **Reviewer note:** open the live demo in **Microsoft Edge or Chrome** and allow the microphone. Edge has a natural Marathi voice built in; on Chrome, Marathi answers are read with a Hindi voice automatically.
 
