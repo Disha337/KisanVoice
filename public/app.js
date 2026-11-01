@@ -377,12 +377,30 @@ function renderWeather(w) {
   ask.onclick = () => send(t('weather.askPrompt', { w: '' }).trim());
   card.append(top, st, fh, days, th, src, ask); out.append(card); void d0;
 }
+async function fetchWeatherDirect({ q, lat, lon }) {
+  let place = null;
+  if (q) {
+    const gr = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=${getLang()}&format=json`);
+    if (!gr.ok) throw new Error('Weather service returned HTTP ' + gr.status);
+    const r = (await gr.json()).results?.[0];
+    if (!r) throw Object.assign(new Error('Place not found'), { code: 'notfound' });
+    lat = r.latitude; lon = r.longitude;
+    place = { name: r.name, region: r.admin1 || '', country: r.country || '' };
+  }
+  const fr = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=5`);
+  if (!fr.ok) throw new Error('Weather service returned HTTP ' + fr.status);
+  const f = await fr.json(), c = f.current || {}, d = f.daily || {};
+  return {
+    place: place || { name: `${Number(lat).toFixed(2)}, ${Number(lon).toFixed(2)}`, region: '', country: '' },
+    current: { temp: c.temperature_2m, humidity: c.relative_humidity_2m, precip: c.precipitation, wind: c.wind_speed_10m, code: c.weather_code, time: c.time },
+    daily: (d.time || []).map((date, i) => ({ date, max: d.temperature_2m_max?.[i], min: d.temperature_2m_min?.[i], rain: d.precipitation_probability_max?.[i], code: d.weather_code?.[i] })),
+    source: 'Open-Meteo (open-meteo.com)', fetchedAt: new Date().toISOString(),
+  };
+}
 async function getWeather(params) {
   const out = $('#wOut'); out.innerHTML = ''; const l = document.createElement('div'); l.className = 'small'; l.textContent = t('weather.loading'); out.append(l);
   try {
-    const r = await fetch('/api/weather?' + new URLSearchParams({ ...params, lang: getLang() }));
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) throw Object.assign(new Error(data.error || 'HTTP ' + r.status), { code: data.code });
+    const data = await fetchWeatherDirect(params);
     state.weather = data; renderWeather(data);
   } catch (e) {
     out.innerHTML = ''; const p = document.createElement('div'); p.className = 'notice error';
